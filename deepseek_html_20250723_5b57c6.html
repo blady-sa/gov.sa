@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جارٍ التوجيه إلى الموقع الجديد</title>
+    <script>
+        // قاعدة بيانات لتعيين المسارات القديمة إلى الجديدة
+        const pathMappings = {
+            // الصفحات الرئيسية
+            "/": "/",
+            "/gov.sa/": "/",
+            "/balady.sa.gov/": "/",
+            
+            // الصفحات المحددة
+            "/gov.sa/402612941969.html": "/402612941969.html",
+            "/balady.sa.gov/404289680671.html": "/404289680671.html",
+            
+            // يمكنك إضافة المزيد من الصفحات هنا
+            // "/المسار/القديم.html": "/المسار/الجديد.html"
+        };
+
+        // دالة ذكية للتعامل مع جميع أنواع الطلبات
+        function redirectToNewSite() {
+            // 1. استخراج المسار الحالي وبارامترات البحث
+            const currentPath = window.location.pathname;
+            const searchParams = new URLSearchParams(window.location.search);
+            
+            // 2. البحث عن تطابق في قاعدة البيانات
+            let newPath = pathMappings[currentPath];
+            
+            // 3. إذا لم يوجد تطابق مباشر، حاول البحث عن تطابق جزئي
+            if (!newPath) {
+                for (const [oldPath, mappedPath] of Object.entries(pathMappings)) {
+                    if (currentPath.startsWith(oldPath)) {
+                        newPath = mappedPath + currentPath.slice(oldPath.length);
+                        break;
+                    }
+                }
+            }
+            
+            // 4. إذا لم يوجد أي تطابق، استخدم الصفحة الرئيسية
+            if (!newPath) newPath = "/";
+            
+            // 5. بناء الرابط الجديد مع الحفاظ على بارامترات البحث
+            const newBase = "https://blady-sa.github.io/gov.sa";
+            const queryString = searchParams.toString();
+            const newUrl = newBase + newPath + (queryString ? `?${queryString}` : "");
+            
+            // 6. التسجيل في الكونسول لأغراض التصحيح
+            console.log(`[Redirect] ${currentPath} → ${newUrl}`);
+            
+            // 7. التوجيه الفوري
+            window.location.replace(newUrl);
+        }
+
+        // بدء عملية التوجيه عند تحميل الصفحة
+        window.addEventListener('DOMContentLoaded', redirectToNewSite);
+    </script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: white;
+            text-align: center;
+            padding: 50px 20px;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 800px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+        }
+        
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 25px;
+        }
+        
+        .loader {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top: 5px solid white;
+            animation: spin 1s linear infinite;
+            margin: 30px auto;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .manual-link {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 12px 30px;
+            background: #ffffff;
+            color: #1a2a6c;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+        
+        .manual-link:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+            background: #fdbb2d;
+        }
+        
+        .note {
+            margin-top: 30px;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>جارٍ نقلك إلى الموقع الجديد</h1>
+        <p>يتم الآن تحويلك تلقائيًا إلى نسخة الموقع المحدثة. هذا التحويل يحافظ على جميع محتويات الصفحة وبارامترات الرابط.</p>
+        
+        <div class="loader"></div>
+        
+        <p>إذا لم يتم التوجيه تلقائيًا خلال بضع ثوانٍ، يرجى النقر على الزر أدناه:</p>
+        <a href="#" class="manual-link" onclick="redirectToNewSite(); return false;">الانتقال الآن</a>
+        
+        <div class="note">
+            <strong>ملاحظة تقنية:</strong> تم تصميم هذا النظام للتعامل مع جميع أنواع الروابط والبارامترات. سينتقل الزوار إلى نفس المحتوى في الموقع الجديد مع الحفاظ على تجربة المستخدم.
+        </div>
+    </div>
+
+    <script>
+        // نسخة احتياطية في حال فشل التوجيه التلقائي
+        setTimeout(function() {
+            if (!window.location.href.includes('blady-sa.github.io')) {
+                redirectToNewSite();
+            }
+        }, 5000);
+        
+        // إضافة رابط يدوي كنسخة احتياطية
+        document.querySelector('.manual-link').href = "https://blady-sa.github.io/gov.sa/";
+    </script>
+</body>
+</html>
