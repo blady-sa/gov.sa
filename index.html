@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>جارٍ نقلك إلى الموقع الجديد</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1e5799, #207cca, #2989d8, #1e5799);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 800px;
+            width: 100%;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .header {
+            margin-bottom: 30px;
+        }
+        
+        .header h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+        
+        .header p {
+            font-size: 1.3rem;
+            opacity: 0.9;
+        }
+        
+        .redirect-info {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 25px;
+            margin: 25px 0;
+            text-align: left;
+        }
+        
+        .info-row {
+            display: flex;
+            margin-bottom: 15px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .info-row:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        
+        .info-label {
+            width: 150px;
+            font-weight: bold;
+            color: #4dabf7;
+        }
+        
+        .info-value {
+            flex: 1;
+            word-break: break-all;
+        }
+        
+        .loading-section {
+            margin: 30px 0;
+        }
+        
+        .loader {
+            width: 80px;
+            height: 80px;
+            border: 8px solid rgba(255, 255, 255, 0.2);
+            border-top: 8px solid #4dabf7;
+            border-radius: 50%;
+            margin: 0 auto 25px;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .progress-text {
+            font-size: 1.2rem;
+            margin-top: 15px;
+        }
+        
+        .progress-bar {
+            height: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 5px;
+            margin-top: 10px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #4dabf7, #da77f2);
+            width: 0%;
+            transition: width 0.5s ease;
+        }
+        
+        .actions {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .btn {
+            padding: 14px 30px;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #4dabf7, #339af0);
+            color: white;
+            box-shadow: 0 5px 15px rgba(77, 171, 247, 0.4);
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(77, 171, 247, 0.6);
+        }
+        
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+        }
+        
+        .btn-secondary:hover {
+            background: rgba(255, 255, 255, 0.2);
+        }
+        
+        .footer {
+            margin-top: 35px;
+            font-size: 0.9rem;
+            opacity: 0.7;
+        }
+        
+        .technical-info {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 15px;
+            margin-top: 25px;
+            font-size: 0.85rem;
+            text-align: left;
+        }
+        
+        .technical-info h3 {
+            margin-bottom: 10px;
+            color: #4dabf7;
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0% { opacity: 0.6; }
+            50% { opacity: 1; }
+            100% { opacity: 0.6; }
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                padding: 25px;
+            }
+            
+            .header h1 {
+                font-size: 2.2rem;
+            }
+            
+            .info-row {
+                flex-direction: column;
+            }
+            
+            .info-label {
+                width: 100%;
+                margin-bottom: 5px;
+            }
+            
+            .actions {
+                flex-direction: column;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1><i class="fas fa-sync-alt"></i> جارٍ نقلك إلى الموقع الجديد</h1>
+            <p>نظام إعادة التوجيه الذكي يحافظ على جميع محتويات الرابط</p>
+        </div>
+        
+        <div class="redirect-info">
+            <div class="info-row">
+                <span class="info-label">الرابط القديم:</span>
+                <span class="info-value" id="old-url">جارٍ التحميل...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">الرابط الجديد:</span>
+                <span class="info-value" id="new-url">جارٍ التحميل...</span>
+            </div>
+            <div class="info-row">
+                <span class="info-label">حالة التوجيه:</span>
+                <span class="info-value" id="status">قيد المعالجة...</span>
+            </div>
+        </div>
+        
+        <div class="loading-section">
+            <div class="loader"></div>
+            <div class="progress-text">جاري إعادة التوجيه <span id="countdown">5</span> ثانية</div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progress"></div>
+            </div>
+        </div>
+        
+        <div class="actions">
+            <button class="btn btn-primary" id="redirect-now">
+                <i class="fas fa-bolt"></i> الانتقال الآن
+            </button>
+            <button class="btn btn-secondary" id="report-issue">
+                <i class="fas fa-exclamation-triangle"></i> الإبلاغ عن مشكلة
+            </button>
+        </div>
+        
+        <div class="footer">
+            <p>نظام إعادة التوجيه المتقدم - الإصدار 2.5</p>
+            <p class="pulse">تم تصميم هذا النظام خصيصًا لحل مشكلة تعليق الحساب</p>
+        </div>
+        
+        <div class="technical-info">
+            <h3><i class="fas fa-cogs"></i> معلومات تقنية:</h3>
+            <p>• هذا النظام يحافظ على جميع بارامترات الرابط (URL Parameters)</p>
+            <p>• يعمل مع جميع أنواع الباركودات وطرق المسح الضوئي</p>
+            <p>• متوافق مع جميع المتصفحات والأجهزة</p>
+            <p>• لا يتطلب أي إعدادات إضافية</p>
+        </div>
+    </div>
+
+    <script>
+        // قائمة المسارات المحددة
+        const pathMappings = {
+            "/gov.sa/402612941969.html": "/gov.sa/402612941969.html",
+            "/balady.sa.gov/404289680671.html": "/gov.sa/404289680671.html",
+            // يمكن إضافة المزيد من الصفحات هنا
+            // "/المسار/القديم.html": "/المسار/الجديد.html"
+        };
+        
+        // عناصر DOM
+        const oldUrlElement = document.getElementById('old-url');
+        const newUrlElement = document.getElementById('new-url');
+        const statusElement = document.getElementById('status');
+        const progressElement = document.getElementById('progress');
+        const countdownElement = document.getElementById('countdown');
+        const redirectNowButton = document.getElementById('redirect-now');
+        const reportIssueButton = document.getElementById('report-issue');
+        
+        // معلومات الرابط
+        const currentPath = window.location.pathname;
+        const queryString = window.location.search;
+        const hashFragment = window.location.hash;
+        
+        // تحديد المسار الجديد
+        let newPath = pathMappings[currentPath] || currentPath;
+        const newBase = "https://blady-sa.github.io";
+        
+        // بناء الرابط الجديد
+        const newUrl = newBase + newPath + queryString + hashFragment;
+        
+        // عرض المعلومات
+        oldUrlElement.textContent = window.location.href;
+        newUrlElement.textContent = newUrl;
+        statusElement.innerHTML = '<span style="color:#4dabf7">تم التعرف على الرابط بنجاح</span>';
+        
+        // تحديث شريط التقدم
+        let countdown = 5;
+        const countdownInterval = setInterval(() => {
+            countdown--;
+            countdownElement.textContent = countdown;
+            progressElement.style.width = `${(5 - countdown) * 20}%`;
+            
+            if (countdown <= 0) {
+                clearInterval(countdownInterval);
+                performRedirect();
+            }
+        }, 1000);
+        
+        // وظيفة تنفيذ إعادة التوجيه
+        function performRedirect() {
+            statusElement.innerHTML = '<span style="color:#69db7c">جارٍ إعادة التوجيه الآن...</span>';
+            setTimeout(() => {
+                window.location.replace(newUrl);
+            }, 300);
+        }
+        
+        // إعادة التوجيه عند النقر على الزر
+        redirectNowButton.addEventListener('click', performRedirect);
+        
+        // الإبلاغ عن مشكلة
+        reportIssueButton.addEventListener('click', () => {
+            statusElement.innerHTML = '<span style="color:#ff922b">جارٍ فتح نموذج الإبلاغ...</span>';
+            setTimeout(() => {
+                const email = "support@example.com";
+                const subject = "مشكلة في نظام إعادة التوجيه";
+                const body = `وصف المشكلة:\n\nالرابط القديم: ${window.location.href}\nالرابط الجديد: ${newUrl}`;
+                
+                window.open(`mailto:${email}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`);
+            }, 500);
+        });
+        
+        // نسخة احتياطية للتوجيه بعد 8 ثوان
+        setTimeout(performRedirect, 8000);
+        
+        // تسجيل معلومات التوجيه في الكونسول
+        console.log(`[Redirect System]`);
+        console.log(`Old URL: ${window.location.href}`);
+        console.log(`New URL: ${newUrl}`);
+        console.log(`Path mapping: ${currentPath} → ${newPath}`);
+    </script>
+</body>
+</html>
